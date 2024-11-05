@@ -4,6 +4,7 @@ import org.junit.jupiter.api.*;
 import org.tinylog.Logger;
 
 @Tag("ContactUsPage")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ContactUsTest extends BaseTestConfig {
 
     ContactUs contactUsPage;
@@ -15,13 +16,22 @@ public class ContactUsTest extends BaseTestConfig {
         contactUsPage = new ContactUs();
     }
 
-    @Test
+    @Test()
+    @Order(1)
     public void validateContactUsPageLabels() {
         Assertions.assertTrue(contactUsPage.validateButtonLabels());
     }
+
     @Test
+    @Order(2)
     public void validateContactUsNavigationHeaders() {
         Assertions.assertTrue(contactUsPage.validateHeaderNavigationLabels());
+    }
+
+    @Test
+    @Order(3)
+    public void validatePageScroll() {
+        Assertions.assertTrue(contactUsPage.clickNavigation());
     }
 
     @AfterEach

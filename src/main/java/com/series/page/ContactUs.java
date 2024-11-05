@@ -5,6 +5,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.tinylog.Logger;
 
 import java.util.List;
 
@@ -25,6 +26,10 @@ public class ContactUs extends BaseTestConfig {
     WebElement _nav_about_us;
     @FindBy(xpath = "//*/a[@title='Careers' and text()='Careers']")
     WebElement _nav_careers;
+    @FindBy(xpath = "//*/a[@class='cmp-tabs__anchor-link ' and contains(text(),'Our locations')]")
+    WebElement _nav_our_locations;
+    @FindBy(xpath = "//*/a[@class='cmp-tabs__anchor-link ' and contains(text(),'Get in touch')]")
+    WebElement _nav_get_in_touch;
 
     public ContactUs() {
         PageFactory.initElements(testDriver, this);
@@ -46,5 +51,16 @@ public class ContactUs extends BaseTestConfig {
                 return true;
         }
         return false;
+    }
+
+    public boolean clickNavigation() {
+        try {
+            _nav_get_in_touch.click();
+            _nav_our_locations.click();
+        } catch (Exception e) {
+            Logger.info(e.getMessage());
+            return false;
+        }
+        return true;
     }
 }
