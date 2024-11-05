@@ -36,10 +36,12 @@ public class ContactUs extends BaseTestConfig {
     }
 
     public boolean validateButtonLabels() {
+        Logger.info("validating button labels");
         return _btn_contactUs.isDisplayed();
     }
 
-    public boolean validateHeaderNavigationLabels() {
+    public boolean validateHeaders() {
+        Logger.info("validating headers");
         List<WebElement> elements = testDriver.findElements(By.tagName("nav"));
         for (WebElement element : elements) {
             if (element.getText().contains(_nav_solutions.getText()) &&
@@ -53,7 +55,8 @@ public class ContactUs extends BaseTestConfig {
         return false;
     }
 
-    public boolean clickNavigation() {
+    public boolean pageScrollAndNavigation() {
+        Logger.info("validating page scroll and navigation");
         try {
             _nav_get_in_touch.click();
             _nav_our_locations.click();
