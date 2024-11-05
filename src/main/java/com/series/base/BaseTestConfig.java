@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.FileInputStream;
+import java.time.Duration;
 import java.util.Properties;
 
 /*
@@ -17,26 +18,33 @@ public class BaseTestConfig {
     public BaseTestConfig() {
         try {
             properties = new Properties();
-            FileInputStream inputStream = new FileInputStream(System.getProperty(("user.dir") + "/src/main/java/com/series/config/config.properties"));
+            FileInputStream inputStream = new FileInputStream("src/main/resources/config.properties");
             properties.load(inputStream);
+            inputStream.close();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
     public static void initializeConfigurations() {
-        String browser = properties.getProperty("browser");
+        try {
+            String browser = properties.getProperty("app.browser");
 
-        if (browser.equals("chrome")) {
-            System.setProperty("webdriver.chrome.driver", "chromedriver-mac-x64/chromedriver");
-            ChromeOptions chromeOptions = new ChromeOptions();
-            chromeOptions.addArguments("--start-maximized");
-            testDriver = new ChromeDriver(chromeOptions);
+            if (browser.equals("chrome")) {
+                System.setProperty("webdriver.chrome.driver", "chromedriver-mac-x64/chromedriver");
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--incognito");
+
+                testDriver = new ChromeDriver(chromeOptions);
+            }
+
+            //more driver pre-run configurations here
+            testDriver.manage().window().maximize();
+            testDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+            testDriver.get(properties.getProperty("app.url"));
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
         }
 
-        //more driver pre-run configurations here
-        testDriver.get(properties.getProperty("url"));
     }
-
-
 }
