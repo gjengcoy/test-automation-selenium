@@ -3,6 +3,7 @@ package com.series.base;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.tinylog.Logger;
 
 import java.io.FileInputStream;
 import java.time.Duration;
@@ -22,28 +23,28 @@ public class BaseTestConfig {
             properties.load(inputStream);
             inputStream.close();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Logger.error("Error encountered {}", e.getMessage());
         }
     }
 
+    // driver pre-run configurations
     public static void initializeConfigurations() {
+        Logger.info("Initializing testing configurations");
         try {
             String browser = properties.getProperty("app.browser");
 
             if (browser.equals("chrome")) {
-                System.setProperty("webdriver.chrome.driver", "chromedriver-mac-x64/chromedriver");
+                System.setProperty("webdriver.chrome.driver", properties.getProperty("app.driver"));
                 ChromeOptions chromeOptions = new ChromeOptions();
                 chromeOptions.addArguments("--incognito");
-
                 testDriver = new ChromeDriver(chromeOptions);
             }
 
-            //more driver pre-run configurations here
             testDriver.manage().window().maximize();
-            testDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(10));
+            testDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(6));
             testDriver.get(properties.getProperty("app.url"));
         } catch (Exception e) {
-            System.out.print(e.getMessage());
+            Logger.error("Error encountered {}", e.getMessage());
         }
 
     }
