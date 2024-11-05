@@ -27,9 +27,7 @@ public class BaseTestConfig {
         }
     }
 
-    // driver pre-run configurations
     public static void initializeConfigurations() {
-        Logger.info("Initializing testing configurations");
         try {
             String browser = properties.getProperty("app.browser");
 

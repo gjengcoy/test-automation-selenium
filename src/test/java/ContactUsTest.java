@@ -1,6 +1,7 @@
 import com.series.base.BaseTestConfig;
 import com.series.page.ContactUs;
 import org.junit.jupiter.api.*;
+import org.tinylog.Logger;
 
 @Tag("ContactUsPage")
 public class ContactUsTest extends BaseTestConfig {
@@ -9,6 +10,7 @@ public class ContactUsTest extends BaseTestConfig {
 
     @BeforeEach
     public void setUp() {
+        Logger.info("Initializing testing configurations");
         initializeConfigurations();
         contactUsPage = new ContactUs();
     }
